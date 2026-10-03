@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+
+{% block title %}Recruiter Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                Recruiter Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Welcome back, {{ request.user.username }}!
+            </p>
+        </div>
+
+        <a href="{% url 'company_profile' %}"
+           class="btn btn-primary">
+
+            <i class="bi bi-building"></i>
+            Company Profile
+
+        </a>
+
+    </div>
+
+
+    <!-- Job Statistics -->
+
+    <h5 class="fw-bold mb-3">
+        <i class="bi bi-briefcase"></i>
+        Job Overview
+    </h5>
+
+    <div class="row g-4 mb-5">
+
+        <!-- Total Jobs -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Total Jobs
+                            </p>
+
+                            <h2 class="fw-bold">
+                                {{ total_jobs }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1 text-primary">
+                            <i class="bi bi-briefcase"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Active Jobs -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Active Jobs
+                            </p>
+
+                            <h2 class="fw-bold">
+                                {{ active_jobs }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1 text-success">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Inactive Jobs -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Inactive Jobs
+                            </p>
+
+                            <h2 class="fw-bold">
+                                {{ inactive_jobs }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1 text-secondary">
+                            <i class="bi bi-pause-circle"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Application Statistics -->
+
+    <h5 class="fw-bold mb-3">
+
+        <i class="bi bi-people"></i>
+        Application Overview
+
+    </h5>
+
+    <div class="row g-4 mb-5">
+
+        <!-- Total -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Total Applications
+                    </p>
+
+                    <h2 class="fw-bold">
+                        {{ total_applications }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Pending -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Pending
+                    </p>
+
+                    <h2 class="fw-bold text-warning">
+                        {{ pending_applications }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Shortlisted -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Shortlisted
+                    </p>
+
+                    <h2 class="fw-bold text-info">
+                        {{ shortlisted_applications }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Interview -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Interview
+                    </p>
+
+                    <h2 class="fw-bold text-primary">
+                        {{ interview_applications }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Selected -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Selected
+                    </p>
+
+                    <h2 class="fw-bold text-success">
+                        {{ selected_applications }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Rejected -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Rejected
+                    </p>
+
+                    <h2 class="fw-bold text-danger">
+                        {{ rejected_applications }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Quick Actions -->
+
+    <h5 class="fw-bold mb-3">
+
+        <i class="bi bi-lightning"></i>
+        Quick Actions
+
+    </h5>
+
+    <div class="row g-4 mb-5">
+
+        <!-- Company Profile -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-1 text-primary mb-3">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Company Profile
+                    </h5>
+
+                    <p class="text-muted">
+                        Manage your company information and details.
+                    </p>
+
+                    <a href="{% url 'company_profile' %}"
+                       class="btn btn-primary">
+
+                        Manage Company
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Post Job -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-1 text-success mb-3">
+                        <i class="bi bi-plus-circle"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Post New Job
+                    </h5>
+
+                    <p class="text-muted">
+                        Create a new job vacancy and find candidates.
+                    </p>
+
+                    <a href="{% url 'create_job' %}"
+                       class="btn btn-success">
+
+                        Post Job
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- My Jobs -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-1 text-info mb-3">
+                        <i class="bi bi-list-ul"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        My Jobs
+                    </h5>
+
+                    <p class="text-muted">
+                        Manage jobs and review candidate applications.
+                    </p>
+
+                    <a href="{% url 'my_jobs' %}"
+                       class="btn btn-info">
+
+                        Manage Jobs
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

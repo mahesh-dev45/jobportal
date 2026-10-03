@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+
+{% block title %}Applications | JobPortal{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-people text-primary"></i>
+                Job Applications
+            </h2>
+
+            <p class="text-muted mb-0">
+                Applications received for
+                <strong>{{ job.title }}</strong>
+            </p>
+        </div>
+
+        <a href="{% url 'my_jobs' %}"
+           class="btn btn-outline-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+            Back to My Jobs
+
+        </a>
+
+    </div>
+
+
+    <!-- Job Summary -->
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <small class="text-muted">Job Title</small>
+                    <div class="fw-semibold">
+                        {{ job.title }}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <small class="text-muted">Location</small>
+                    <div class="fw-semibold">
+                        <i class="bi bi-geo-alt"></i>
+                        {{ job.location }}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <small class="text-muted">Job Type</small>
+                    <div class="fw-semibold">
+                        {{ job.get_job_type_display }}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <small class="text-muted">Applications</small>
+                    <div class="fw-semibold">
+                        {{ applications|length }}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Applications -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white py-3">
+
+            <h5 class="fw-bold mb-0">
+                <i class="bi bi-file-earmark-person"></i>
+                Candidate Applications
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            {% if applications %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>#</th>
+                                <th>Candidate</th>
+                                <th>Applied Date</th>
+                                <th>Status</th>
+                                <th>Resume</th>
+                                <th>Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for application in applications %}
+
+                            <tr>
+
+                                <td>
+                                    {{ forloop.counter }}
+                                </td>
+
+
+                                <!-- Candidate -->
+                                <td>
+
+                                    <div class="fw-semibold">
+                                        {{ application.candidate.username }}
+                                    </div>
+
+                                    <small class="text-muted">
+                                        {{ application.candidate.email }}
+                                    </small>
+
+                                </td>
+
+
+                                <!-- Applied Date -->
+                                <td>
+
+                                    {{ application.applied_at|date:"d M Y" }}
+
+                                    <br>
+
+                                    <small class="text-muted">
+                                        {{ application.applied_at|date:"h:i A" }}
+                                    </small>
+
+                                </td>
+
+
+                                <!-- Status -->
+                                <td>
+
+                                    {% if application.status == 'pending' %}
+
+                                        <span class="badge bg-warning text-dark">
+                                            Pending
+                                        </span>
+
+                                    {% elif application.status == 'shortlisted' %}
+
+                                        <span class="badge bg-info">
+                                            Shortlisted
+                                        </span>
+
+                                    {% elif application.status == 'interview' %}
+
+                                        <span class="badge bg-primary">
+                                            Interview
+                                        </span>
+
+                                    {% elif application.status == 'selected' %}
+
+                                        <span class="badge bg-success">
+                                            Selected
+                                        </span>
+
+                                    {% elif application.status == 'rejected' %}
+
+                                        <span class="badge bg-danger">
+                                            Rejected
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Resume -->
+                                <td>
+
+                                    {% if application.resume %}
+
+                                        <a href="{{ application.resume.url }}"
+                                           target="_blank"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-file-earmark-pdf"></i>
+                                            Resume
+
+                                        </a>
+
+                                    {% else %}
+
+                                        <span class="text-muted">
+                                            Not uploaded
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Actions -->
+                                <td>
+
+                                    <a href="{% url 'candidate_information' application.id %}"
+                                       class="btn btn-sm btn-primary">
+
+                                        <i class="bi bi-person"></i>
+                                        View
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-5">
+
+                    <i class="bi bi-inbox display-4 text-muted"></i>
+
+                    <h5 class="fw-bold mt-3">
+                        No Applications Yet
+                    </h5>
+
+                    <p class="text-muted">
+                        No candidates have applied for this job yet.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

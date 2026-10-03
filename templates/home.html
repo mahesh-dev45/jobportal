@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home - Job Portal
+{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+
+    <div class="container text-center">
+
+        <h1>
+            Find Your Dream Job
+        </h1>
+
+        <p>
+            Search jobs and build your career
+        </p>
+
+        <form
+            action="/jobs/"
+            method="GET"
+            class="row justify-content-center">
+
+            <div class="col-md-4">
+
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Job title or skill">
+
+            </div>
+
+            <div class="col-md-3">
+
+                <input
+                    type="text"
+                    name="location"
+                    class="form-control"
+                    placeholder="Location">
+
+            </div>
+
+            <div class="col-md-2">
+
+                <button
+                    class="btn btn-primary w-100">
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div class="container mt-5">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <div class="card p-4">
+
+                <h3>Find Jobs</h3>
+
+                <p>
+                    Search jobs based on your skills.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card p-4">
+
+                <h3>Apply Online</h3>
+
+                <p>
+                    Upload your resume and apply.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card p-4">
+
+                <h3>Hire Talent</h3>
+
+                <p>
+                    Recruiters can post jobs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

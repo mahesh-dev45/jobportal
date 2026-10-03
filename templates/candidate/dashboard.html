@@ -1,0 +1,403 @@
+{% extends 'base.html' %}
+
+{% block title %}Candidate Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                Candidate Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Welcome back, {{ request.user.username }}!
+            </p>
+        </div>
+
+        <a href="{% url 'candidate_profile' %}"
+           class="btn btn-primary">
+
+            <i class="bi bi-person-circle"></i>
+            My Profile
+
+        </a>
+
+    </div>
+
+
+    <!-- Statistics -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Total Applications
+                            </p>
+
+                            <h2 class="fw-bold">
+                                {{ total_applications }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1 text-primary">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Pending
+                            </p>
+
+                            <h2 class="fw-bold">
+                                {{ pending_count }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1 text-warning">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Shortlisted
+                            </p>
+
+                            <h2 class="fw-bold">
+                                {{ shortlisted_count }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1 text-info">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Selected
+                            </p>
+
+                            <h2 class="fw-bold">
+                                {{ selected_count }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1 text-success">
+                            <i class="bi bi-trophy"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Quick Actions -->
+
+    <h4 class="fw-bold mb-3">
+        Quick Actions
+    </h4>
+
+    <div class="row g-4">
+
+        <!-- Find Jobs -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-1 text-primary mb-3">
+                        <i class="bi bi-search"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Find Jobs
+                    </h5>
+
+                    <p class="text-muted">
+                        Search and explore available job opportunities.
+                    </p>
+
+                    <a href="{% url 'job_list' %}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-search"></i>
+                        Search Jobs
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- My Applications -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-1 text-success mb-3">
+                        <i class="bi bi-file-earmark-check"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        My Applications
+                    </h5>
+
+                    <p class="text-muted">
+                        Track the jobs you have applied for.
+                    </p>
+
+                    <a href="{% url 'my_applications' %}"
+                       class="btn btn-success">
+
+                        <i class="bi bi-list-check"></i>
+                        View Applications
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Notifications -->
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="fs-1 text-warning mb-3">
+                        <i class="bi bi-bell"></i>
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Notifications
+                    </h5>
+
+                    <p class="text-muted">
+                        Check updates about your applications.
+                    </p>
+
+                    <a href="{% url 'notifications' %}"
+                       class="btn btn-warning">
+
+                        <i class="bi bi-bell"></i>
+                        View Notifications
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Recent Applications -->
+
+    <div class="card border-0 shadow-sm mt-5">
+
+        <div class="card-header bg-white py-3">
+
+            <h5 class="fw-bold mb-0">
+                <i class="bi bi-clock-history"></i>
+                Recent Applications
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if recent_applications %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+                                <th>Job</th>
+                                <th>Company/Recruiter</th>
+                                <th>Status</th>
+                                <th>Applied Date</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for application in recent_applications %}
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        {{ application.job.title }}
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    {{ application.job.recruiter.username }}
+                                </td>
+
+                                <td>
+
+                                    {% if application.status == 'pending' %}
+
+                                        <span class="badge bg-warning text-dark">
+                                            Pending
+                                        </span>
+
+                                    {% elif application.status == 'shortlisted' %}
+
+                                        <span class="badge bg-info">
+                                            Shortlisted
+                                        </span>
+
+                                    {% elif application.status == 'interview' %}
+
+                                        <span class="badge bg-primary">
+                                            Interview
+                                        </span>
+
+                                    {% elif application.status == 'selected' %}
+
+                                        <span class="badge bg-success">
+                                            Selected
+                                        </span>
+
+                                    {% elif application.status == 'rejected' %}
+
+                                        <span class="badge bg-danger">
+                                            Rejected
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    {{ application.applied_at|date:"d M Y" }}
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-4">
+
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
+
+                    <p class="text-muted mt-2">
+                        You haven't applied for any jobs yet.
+                    </p>
+
+                    <a href="{% url 'job_list' %}"
+                       class="btn btn-primary">
+
+                        Find Your First Job
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,330 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Job Portal{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+
+    <div class="container">
+
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="bi bi-briefcase-fill"></i>
+            JobPortal
+        </a>
+
+
+        <!-- Mobile Toggle -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+
+            <!-- LEFT MENU -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <!-- Everyone -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="bi bi-house"></i>
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/jobs/">
+                        <i class="bi bi-search"></i>
+                        Jobs
+                    </a>
+                </li>
+
+
+                <!-- Logged-in Users -->
+                {% if user.is_authenticated %}
+
+                    <!-- Candidate Menu -->
+                    {% if user.userprofile.role == 'candidate' %}
+
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'candidate_dashboard' %}"
+                            >
+                                <i class="bi bi-speedometer2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'my_applications' %}"
+                            >
+                                <i class="bi bi-file-earmark-text"></i>
+                                My Applications
+                            </a>
+                        </li>
+
+                    {% endif %}
+
+
+                    <!-- Recruiter Menu -->
+                    {% if user.userprofile.role == 'recruiter' %}
+
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'recruiter_dashboard' %}"
+                            >
+                                <i class="bi bi-speedometer2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'create_job' %}"
+                            >
+                                <i class="bi bi-plus-circle"></i>
+                                Post Job
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'my_jobs' %}"
+                            >
+                                <i class="bi bi-briefcase"></i>
+                                My Jobs
+                            </a>
+                        </li>
+
+                    {% endif %}
+
+                {% endif %}
+
+            </ul>
+
+
+            <!-- RIGHT MENU -->
+            <div class="d-flex align-items-center gap-2">
+
+                {% if user.is_authenticated %}
+
+                    <!-- Notifications -->
+                    <a
+                        href="{% url 'notifications' %}"
+                        class="btn btn-light btn-sm position-relative"
+                        title="Notifications"
+                    >
+
+                        <i class="bi bi-bell"></i>
+
+                        {% if unread_notification_count > 0 %}
+
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            >
+                                {{ unread_notification_count }}
+
+                                <span class="visually-hidden">
+                                    unread notifications
+                                </span>
+
+                            </span>
+
+                        {% endif %}
+
+                    </a>
+
+
+                    <!-- Username -->
+                    <span class="text-white me-2">
+
+                        <i class="bi bi-person-circle"></i>
+
+                        {{ user.username }}
+
+                    </span>
+
+
+                    <!-- Logout -->
+                    <a
+                        class="btn btn-light btn-sm"
+                        href="/accounts/logout/"
+                    >
+
+                        <i class="bi bi-box-arrow-right"></i>
+
+                        Logout
+
+                    </a>
+
+
+                {% else %}
+
+                    <!-- Login -->
+                    <a
+                        class="btn btn-light btn-sm"
+                        href="/accounts/login/"
+                    >
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        Login
+
+                    </a>
+
+
+                    <!-- Register -->
+                    <a
+                        class="btn btn-warning btn-sm"
+                        href="/accounts/register/"
+                    >
+
+                        <i class="bi bi-person-plus"></i>
+
+                        Register
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<main class="container py-4">
+
+    <!-- Django Messages -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div
+                class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
+                role="alert"
+            >
+
+                {{ message }}
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                ></button>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <!-- Page Content -->
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="bg-dark text-white mt-5">
+
+    <div class="container py-4">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <h5>
+                    <i class="bi bi-briefcase-fill"></i>
+                    JobPortal
+                </h5>
+
+                <p class="text-light mb-0">
+                    Job Portal & Recruitment Management System
+                </p>
+
+            </div>
+
+
+            <div class="col-md-6 text-md-end">
+
+                <p class="mb-1">
+                    Find jobs. Hire talent. Build careers.
+                </p>
+
+                <small class="text-secondary">
+                    © 2026 JobPortal. All rights reserved.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+</body>
+
+</html>

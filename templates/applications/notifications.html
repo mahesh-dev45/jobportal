@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications | JobPortal{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                <i class="bi bi-bell text-primary"></i>
+
+                Notifications
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Stay updated about your job applications.
+
+            </p>
+
+        </div>
+
+        <a
+            href="{% url 'candidate_dashboard' %}"
+            class="btn btn-outline-secondary"
+        >
+
+            <i class="bi bi-arrow-left"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+
+    {% if notifications %}
+
+    <div class="row">
+
+        <!-- NOTIFICATIONS LIST -->
+        <div class="col-lg-9">
+
+            {% for notification in notifications %}
+
+            <div
+                class="card border-0 shadow-sm mb-3
+                {% if not notification.is_read %}
+                    border-start border-primary border-4
+                {% endif %}"
+            >
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex">
+
+                        <!-- ICON -->
+                        <div class="me-3">
+
+                            {% if notification.is_read %}
+
+                                <div class="fs-3 text-secondary">
+
+                                    <i class="bi bi-bell"></i>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="fs-3 text-primary">
+
+                                    <i class="bi bi-bell-fill"></i>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- CONTENT -->
+                        <div class="flex-grow-1">
+
+                            <div
+                                class="d-flex justify-content-between align-items-start"
+                            >
+
+                                <h6 class="fw-bold mb-1">
+
+                                    {% if not notification.is_read %}
+
+                                    <span class="badge bg-primary me-2">
+
+                                        New
+
+                                    </span>
+
+                                    {% endif %}
+
+                                    Application Update
+
+                                </h6>
+
+
+                                <small class="text-muted">
+
+                                    {{ notification.created_at|date:"d M Y, h:i A" }}
+
+                                </small>
+
+                            </div>
+
+
+                            <p class="text-muted mb-2">
+
+                                {{ notification.message }}
+
+                            </p>
+
+
+                            <!-- READ / UNREAD -->
+                            {% if not notification.is_read %}
+
+                                <a
+                                    href="{% url 'mark_notification_read' notification.id %}"
+                                    class="btn btn-sm btn-outline-primary mt-2"
+                                >
+
+                                    <i class="bi bi-check2"></i>
+
+                                    Mark as Read
+
+                                </a>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary mt-2">
+
+                                    <i class="bi bi-check2-all"></i>
+
+                                    Read
+
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- SIDEBAR -->
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">
+
+                        <i class="bi bi-info-circle text-primary"></i>
+
+                        Notification Center
+
+                    </h5>
+
+
+                    <p class="text-muted small">
+
+                        You will receive notifications whenever a recruiter
+                        updates the status of your application.
+
+                    </p>
+
+
+                    <hr>
+
+
+                    <!-- TOTAL -->
+                    <div class="d-flex align-items-center mb-3">
+
+                        <i
+                            class="bi bi-bell-fill text-primary fs-4 me-3"
+                        ></i>
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Total Notifications
+
+                            </small>
+
+                            <h5 class="fw-bold mb-0">
+
+                                {{ notifications|length }}
+
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- UNREAD -->
+                    <div class="d-flex align-items-center">
+
+                        <i
+                            class="bi bi-bell-fill text-warning fs-4 me-3"
+                        ></i>
+
+                        <div>
+
+                            <small class="text-muted">
+
+                                Unread Notifications
+
+                            </small>
+
+                            <h5 class="fw-bold mb-0">
+
+                                {% with unread_count=0 %}
+
+                                    {% for notification in notifications %}
+
+                                        {% if not notification.is_read %}
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                {% endwith %}
+
+                                {{ notifications|length }}
+
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FIND JOBS -->
+            <div class="card border-0 shadow-sm mt-3">
+
+                <div class="card-body text-center p-4">
+
+                    <i
+                        class="bi bi-search text-primary fs-1"
+                    ></i>
+
+                    <h6 class="fw-bold mt-3">
+
+                        Looking for a Job?
+
+                    </h6>
+
+                    <p class="text-muted small">
+
+                        Explore available jobs and apply today.
+
+                    </p>
+
+                    <a
+                        href="{% url 'job_list' %}"
+                        class="btn btn-primary btn-sm"
+                    >
+
+                        <i class="bi bi-search"></i>
+
+                        Find Jobs
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <!-- EMPTY STATE -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body text-center py-5">
+
+            <i
+                class="bi bi-bell-slash display-3 text-muted"
+            ></i>
+
+            <h4 class="fw-bold mt-3">
+
+                No Notifications
+
+            </h4>
+
+            <p class="text-muted">
+
+                You don't have any application updates yet.
+
+            </p>
+
+            <a
+                href="{% url 'job_list' %}"
+                class="btn btn-primary"
+            >
+
+                <i class="bi bi-search"></i>
+
+                Find Jobs
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

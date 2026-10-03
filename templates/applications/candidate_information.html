@@ -1,0 +1,429 @@
+{% extends 'base.html' %}
+
+{% block title %}Candidate Information | JobPortal{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-person-badge text-primary"></i>
+                Candidate Information
+            </h2>
+
+            <p class="text-muted mb-0">
+                Application for <strong>{{ application.job.title }}</strong>
+            </p>
+        </div>
+
+        <a href="{% url 'job_applications' application.job.id %}"
+           class="btn btn-outline-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+            Back to Applications
+
+        </a>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- Candidate Profile -->
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-header bg-white py-3">
+
+                    <h5 class="fw-bold mb-0">
+                        <i class="bi bi-person"></i>
+                        Candidate Profile
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted">
+                                Full Name
+                            </small>
+
+                            <div class="fw-semibold">
+                                {% if candidate_profile %}
+                                    {{ candidate_profile.full_name }}
+                                {% else %}
+                                    {{ application.candidate.username }}
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted">
+                                Username
+                            </small>
+
+                            <div class="fw-semibold">
+                                {{ application.candidate.username }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted">
+                                Email
+                            </small>
+
+                            <div class="fw-semibold">
+                                {{ application.candidate.email }}
+                            </div>
+
+                        </div>
+
+
+                        {% if candidate_profile %}
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted">
+                                Phone
+                            </small>
+
+                            <div class="fw-semibold">
+                                {{ candidate_profile.phone|default:"Not provided" }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted">
+                                Location
+                            </small>
+
+                            <div class="fw-semibold">
+                                {{ candidate_profile.location|default:"Not provided" }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted">
+                                Gender
+                            </small>
+
+                            <div class="fw-semibold">
+                                {{ candidate_profile.get_gender_display|default:"Not provided" }}
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% if candidate_profile %}
+
+            <!-- Skills -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-header bg-white py-3">
+
+                    <h5 class="fw-bold mb-0">
+                        <i class="bi bi-tools"></i>
+                        Skills
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    {% if candidate_profile.skills %}
+                        {{ candidate_profile.skills|linebreaks }}
+                    {% else %}
+                        <span class="text-muted">
+                            No skills provided.
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- Education -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-header bg-white py-3">
+
+                    <h5 class="fw-bold mb-0">
+                        <i class="bi bi-mortarboard"></i>
+                        Education
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    {% if candidate_profile.education %}
+                        {{ candidate_profile.education|linebreaks }}
+                    {% else %}
+                        <span class="text-muted">
+                            No education information provided.
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- Experience -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-header bg-white py-3">
+
+                    <h5 class="fw-bold mb-0">
+                        <i class="bi bi-briefcase"></i>
+                        Experience
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    {% if candidate_profile.experience %}
+                        {{ candidate_profile.experience|linebreaks }}
+                    {% else %}
+                        <span class="text-muted">
+                            No experience information provided.
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- Cover Letter -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-header bg-white py-3">
+
+                    <h5 class="fw-bold mb-0">
+                        <i class="bi bi-file-text"></i>
+                        Cover Letter
+                    </h5>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    {% if application.cover_letter %}
+
+                        {{ application.cover_letter|linebreaks }}
+
+                    {% else %}
+
+                        <span class="text-muted">
+                            No cover letter provided.
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-header bg-white py-3">
+        <h5 class="fw-bold mb-0">
+            <i class="bi bi-clipboard-check"></i>
+            Application Status
+        </h5>
+    </div>
+
+    <div class="card-body p-4">
+
+        <p class="text-muted mb-2">
+            Current Status
+        </p>
+
+        {% if application.status == 'pending' %}
+            <span class="badge bg-warning text-dark fs-6">
+                Pending
+            </span>
+        {% elif application.status == 'shortlisted' %}
+            <span class="badge bg-info fs-6">
+                Shortlisted
+            </span>
+        {% elif application.status == 'interview' %}
+            <span class="badge bg-primary fs-6">
+                Interview
+            </span>
+        {% elif application.status == 'selected' %}
+            <span class="badge bg-success fs-6">
+                Selected
+            </span>
+        {% elif application.status == 'rejected' %}
+            <span class="badge bg-danger fs-6">
+                Rejected
+            </span>
+        {% endif %}
+
+        <hr>
+
+        <form method="POST"
+              action="{% url 'update_application_status' application.id %}">
+
+            {% csrf_token %}
+
+            <label class="form-label fw-semibold">
+                Update Status
+            </label>
+
+            <select name="status" class="form-select mb-3">
+
+                <option value="pending"
+                    {% if application.status == 'pending' %}selected{% endif %}>
+                    Pending
+                </option>
+
+                <option value="shortlisted"
+                    {% if application.status == 'shortlisted' %}selected{% endif %}>
+                    Shortlisted
+                </option>
+
+                <option value="interview"
+                    {% if application.status == 'interview' %}selected{% endif %}>
+                    Interview
+                </option>
+
+                <option value="selected"
+                    {% if application.status == 'selected' %}selected{% endif %}>
+                    Selected
+                </option>
+
+                <option value="rejected"
+                    {% if application.status == 'rejected' %}selected{% endif %}>
+                    Rejected
+                </option>
+
+            </select>
+
+            <button type="submit" class="btn btn-primary w-100">
+
+                <i class="bi bi-check-circle"></i>
+                Update Status
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+            <!-- Resume -->
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-file-earmark-text"></i>
+                        Resume
+                    </h5>
+
+                    {% if application.resume %}
+
+                        <a href="{{ application.resume.url }}"
+                           target="_blank"
+                           class="btn btn-primary w-100">
+
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            View Resume
+
+                        </a>
+
+                    {% else %}
+
+                        <p class="text-muted mb-0">
+                            Resume not uploaded.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- Application Date -->
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-calendar"></i>
+                        Application Details
+                    </h5>
+
+                    <p class="mb-2">
+                        <span class="text-muted">
+                            Applied:
+                        </span>
+
+                        <strong>
+                            {{ application.applied_at|date:"d M Y, h:i A" }}
+                        </strong>
+                    </p>
+
+                    <p class="mb-0">
+                        <span class="text-muted">
+                            Job:
+                        </span>
+
+                        <strong>
+                            {{ application.job.title }}
+                        </strong>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

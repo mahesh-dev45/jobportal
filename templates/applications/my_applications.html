@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        My Applications
+    </h2>
+
+    {% for application in applications %}
+
+    <div class="card shadow-sm mb-3">
+
+        <div class="card-body">
+
+            <h4>
+                {{ application.job.title }}
+            </h4>
+
+            <p>
+                <strong>Location:</strong>
+                {{ application.job.location }}
+            </p>
+
+            <p>
+                <strong>Applied On:</strong>
+                {{ application.applied_at|date:"d M Y" }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                {% if application.status == 'pending' %}
+                    <span class="badge bg-warning">
+                        Pending
+                    </span>
+
+                {% elif application.status == 'shortlisted' %}
+                    <span class="badge bg-info">
+                        Shortlisted
+                    </span>
+
+                {% elif application.status == 'interview' %}
+                    <span class="badge bg-primary">
+                        Interview
+                    </span>
+
+                {% elif application.status == 'selected' %}
+                    <span class="badge bg-success">
+                        Selected
+                    </span>
+
+                {% elif application.status == 'rejected' %}
+                    <span class="badge bg-danger">
+                        Rejected
+                    </span>
+                {% endif %}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="alert alert-info">
+
+        You have not applied for any jobs yet.
+
+        <a href="{% url 'job_list' %}">
+            Browse Jobs
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
